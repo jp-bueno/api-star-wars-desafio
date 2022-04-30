@@ -1,5 +1,6 @@
 package br.com.desafio.api.filmsDTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,34 +17,49 @@ public class FilmesDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonProperty("title")
     private String title;
 
-    private Integer episode_id;
+    @JsonProperty("episode_id")
+    private Integer episodeId;
 
-    private String opening_crawl;
+    @JsonProperty("opening_crawl")
+    private String openingCrawl;
 
+    @JsonProperty("director")
     private String director;
 
+    @JsonProperty("producer")
     private String producer;
 
-    private LocalDate release_date;
+    @JsonProperty("release_date")
+    private LocalDate releaseDate;
 
+    @JsonProperty("characters")
     private List<String> characters;
 
+    @JsonProperty("planets")
     private List<String> planets;
 
+    @JsonProperty("starship")
     private List<String> starships;
 
+    @JsonProperty("vehicles")
     private List<String> vehicles;
 
+    @JsonProperty("species")
     private List<String> species;
 
+    @JsonProperty("created")
     private LocalDateTime created;
 
+    @JsonProperty("edited")
     private LocalDateTime edited;
 
+    @JsonProperty("url")
     private String url;
 
+    @JsonProperty("version")
     private Integer version;
 
 }

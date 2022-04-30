@@ -2,7 +2,9 @@ package br.com.desafio.api.service;
 
 import br.com.desafio.api.client.StarWarsClient;
 import br.com.desafio.api.entity.FilmeEntity;
+import br.com.desafio.api.filmsDTO.FilmesDTO;
 import br.com.desafio.api.filmsDTO.ResponseClientDTO;
+import br.com.desafio.api.mapper.FilmeMapper;
 import br.com.desafio.api.repository.FilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class FilmeService {
     @Autowired
     FilmeRepository starWarsRepository;
 
+//    @Autowired
+//    FilmeMapper filmeMapper;
+
     public String teste() {
         ResponseEntity<ResponseClientDTO> teste = starWarsClient.responseClientDTO();
         return "Teste";
@@ -31,17 +36,19 @@ public class FilmeService {
     }
 
     //findById
-    public FilmeEntity buscarFilmePorId(Integer episode_id){
+    //ResponsseEntity
+    public ResponseEntity<FilmesDTO> buscarFilmePorId(Integer episode_id){
         Optional<FilmeEntity> obj = starWarsRepository.findById(episode_id);
-        return obj.get();
+ //       return ResponseEntity.ok(filmeMapper.entityToDTO(obj.get()));// usar para transformar dto em entity e entity em dto
+        return null;
     }
 
-    //PUT
-    public FilmeEntity atualizarFilme(Integer episode_id, FilmeEntity obj) {
-        FilmeEntity newObj = findById(episode_id);
-        updateData(newObj, obj);
-        return starWarsRepository.save(newObj);
-    }
+//    //PUT
+//    public FilmeEntity atualizarFilme(Integer episode_id, FilmeEntity obj) {
+//        FilmeEntity newObj = findById(episode_id);
+//        updateData(newObj, obj);
+//        return starWarsRepository.save(newObj);
+//    }
 
     //carregarFilme
     //o método que vai chamar o feign quando a aplicação subir: para gravar na memória
