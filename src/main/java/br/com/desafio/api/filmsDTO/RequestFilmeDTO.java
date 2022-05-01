@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @Data
 public class RequestFilmeDTO {
-    //USAR PARA ALTERAR A DESCRIÇÃO
 
     @JsonProperty("descricao")
     private String descricao;

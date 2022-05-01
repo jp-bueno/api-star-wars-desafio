@@ -1,55 +1,65 @@
 package br.com.desafio.api.service;
 
-import br.com.desafio.api.client.StarWarsClient;
-import br.com.desafio.api.entity.FilmeEntity;
+import br.com.desafio.api.client.FilmeClient;
+import br.com.desafio.api.filmsDTO.TituloDTO;
 import br.com.desafio.api.filmsDTO.FilmesDTO;
+import br.com.desafio.api.filmsDTO.RequestFilmeDTO;
 import br.com.desafio.api.filmsDTO.ResponseClientDTO;
-import br.com.desafio.api.mapper.FilmeMapper;
 import br.com.desafio.api.repository.FilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FilmeService {
 
     @Autowired
-    StarWarsClient starWarsClient;
+    FilmeClient starWarsClient;
 
     @Autowired
-    FilmeRepository starWarsRepository;
-
-//    @Autowired
-//    FilmeMapper filmeMapper;
+    FilmeRepository filmeRepository;
 
     public String teste() {
         ResponseEntity<ResponseClientDTO> teste = starWarsClient.responseClientDTO();
         return "Teste";
     }
 
-    //findall
-    public List<FilmeEntity> buscarFilme(){
-        return starWarsRepository.findAll();
+
+    public List<TituloDTO> buscarFilme(){
+        List<FilmesDTO> lsfilme = filmeRepository.findAll();
+        List<TituloDTO> lsfilm = new ArrayList<>();
+        lsfilme.stream().forEach(filmesDTO -> {
+            TituloDTO tituloDTO = new TituloDTO();
+            tituloDTO.setTitle(filmesDTO.getTitle());
+            tituloDTO.setId((filmesDTO.getId()));
+            tituloDTO.setVersion(filmesDTO.getVersion());
+            lsfilm.add(tituloDTO);
+        });
+        return lsfilm;
     }
 
-    //findById
-    //ResponsseEntity
-    public ResponseEntity<FilmesDTO> buscarFilmePorId(Integer episode_id){
-        Optional<FilmeEntity> obj = starWarsRepository.findById(episode_id);
- //       return ResponseEntity.ok(filmeMapper.entityToDTO(obj.get()));// usar para transformar dto em entity e entity em dto
-        return null;
+
+    public FilmesDTO buscarFilmePorId(String id){
+
+        return filmeRepository.getFilmById(id);
+
     }
 
-//    //PUT
-//    public FilmeEntity atualizarFilme(Integer episode_id, FilmeEntity obj) {
-//        FilmeEntity newObj = findById(episode_id);
-//        updateData(newObj, obj);
-//        return starWarsRepository.save(newObj);
-//    }
+    public FilmesDTO atualizarFilmes(String id , RequestFilmeDTO requestFilmeDTO){
 
-    //carregarFilme
-    //o método que vai chamar o feign quando a aplicação subir: para gravar na memória
+        FilmesDTO dto = buscarFilmePorId(id);
+
+        if(dto != null){
+            dto.setVersion(dto.getVersion() + 1);
+            dto.setOpening_crawl(requestFilmeDTO.getDescricao());
+        } else {
+            return null;
+        }
+
+        return filmeRepository.updateFilm(id,dto);
+    }
+
 }

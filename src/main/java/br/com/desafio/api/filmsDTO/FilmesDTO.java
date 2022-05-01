@@ -17,14 +17,16 @@ public class FilmesDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private String id;
+
     @JsonProperty("title")
     private String title;
 
     @JsonProperty("episode_id")
-    private Integer episodeId;
+    private Integer episode_id;
 
     @JsonProperty("opening_crawl")
-    private String openingCrawl;
+    private String opening_crawl;
 
     @JsonProperty("director")
     private String director;
@@ -33,7 +35,7 @@ public class FilmesDTO implements Serializable {
     private String producer;
 
     @JsonProperty("release_date")
-    private LocalDate releaseDate;
+    private LocalDate release_date;
 
     @JsonProperty("characters")
     private List<String> characters;
